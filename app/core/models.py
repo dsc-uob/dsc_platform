@@ -22,7 +22,7 @@ class UserManager(BaseUserManager):
             **extra_fields,
         )
         user.set_password(password)
-        user.save(self._db)
+        user.save(using=self._db)
 
         return user
 
@@ -32,8 +32,8 @@ class UserManager(BaseUserManager):
         user.is_staff = True
         user.is_superuser = True
         user.is_active = True
-        user.save(self._db)
 
+        user.save(using=self._db)
         return user
 
     def create_staff_user(self, email, username, password, **extra_fields):
@@ -41,7 +41,7 @@ class UserManager(BaseUserManager):
         user = self.create_user(email, username, password, **extra_fields)
         user.is_staff = True
         user.is_active = True
-        user.save(self._db)
+        user.save(using=self._db)
 
         return user
 
