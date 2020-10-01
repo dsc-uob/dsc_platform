@@ -16,6 +16,9 @@ class UserSerializer(serializers.ModelSerializer):
             'password': {
                 'write_only': True,
                 'min_length': 6
+            },
+            'last_login': {
+                'read_only': True,
             }
         }
 
