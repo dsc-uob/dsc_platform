@@ -19,6 +19,15 @@ class UserSerializer(serializers.ModelSerializer):
             },
             'last_login': {
                 'read_only': True,
+            },
+            'is_active': {
+                'read_only': True,
+            },
+            'is_staff': {
+                'read_only': True,
+            },
+            'is_superuser': {
+                'read_only': True,
             }
         }
 
@@ -38,6 +47,13 @@ class UserSerializer(serializers.ModelSerializer):
 
 class AuthTokenSerializer(serializers.Serializer):
     """Auth token serializer."""
+
+    def update(self, instance, validated_data):
+        raise NotImplementedError('`update()` must be implemented.')
+
+    def create(self, validated_data):
+        raise NotImplementedError('`create()` must be implemented.')
+
     username = serializers.CharField()
     password = serializers.CharField(
         style={'input_type': 'password'},

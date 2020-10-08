@@ -84,3 +84,18 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return f"{self.username} ({self.email})"
+
+
+class Post(models.Model):
+    """The model class of post."""
+    user = models.ForeignKey(
+        'User',
+        on_delete=models.CASCADE,
+    )
+    title = models.CharField(max_length=255)
+    body = models.TextField()
+    created_on = models.DateTimeField(auto_now_add=True)
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f"{self.user.username}: {self.title}"

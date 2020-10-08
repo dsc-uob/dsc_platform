@@ -34,8 +34,8 @@ class LoginView(views.ObtainAuthToken):
             'is_staff': user.is_staff,
             'is_superuser': user.is_superuser,
             'is_authenticated': user.is_authenticated,
-            'gender': user.get_gender_display(),
-            'stage': user.get_stage_display(),
+            'gender': user.gender,
+            'stage': user.stage,
             'last_login': user.last_login,
             'bio': user.bio
         })
