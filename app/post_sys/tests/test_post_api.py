@@ -1,18 +1,9 @@
-from django.urls import reverse
+from post_sys.tests import create_user, POSTS_URL
+
 from django.test import TestCase
-from django.contrib.auth import get_user_model
 
 from rest_framework.test import APIClient
 from rest_framework import status
-
-POSTS_URL = reverse('post_sys:post-list')
-
-
-def create_user(email='user@test.com', username='testuser',
-                first_name='test', password='1234abcd'):
-    return get_user_model().objects. \
-        create_user(email=email, username=username,
-                    first_name=first_name, password=password)
 
 
 class TestPublicPostApi(TestCase):
@@ -62,10 +53,19 @@ class TestPrivatePostApi(TestCase):
         self.assertEqual(res.data['title'], payload['title'])
         self.assertEqual(res.data['user']['id'], self.user.id)
 
-    def test_create_invalid_post(self):
+    def test_create_invalid_post_title(self):
         """Testing creating an invalid post."""
         payload = {
             'body': 'This is simple post.',
+        }
+
+        res = self.client.post(POSTS_URL, payload)
+        self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_create_invalid_post_body(self):
+        """Testing creating an invalid post."""
+        payload = {
+            'title': 'Simple title.',
         }
 
         res = self.client.post(POSTS_URL, payload)

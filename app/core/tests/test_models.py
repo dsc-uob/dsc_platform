@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.contrib.auth import get_user_model
-from core.models import Post
+from core.models import Post, Comment
 
 data = {
     'email': 'user@test.com',
@@ -130,4 +130,57 @@ class TestPostModel(TestCase):
             Post.objects.create(
                 title=payload['title'],
                 body=payload['body'],
+            )
+
+
+class TestCommentModel(TestCase):
+    """Test class for comments."""
+
+    def setUp(self):
+        self.user = create_user()
+        payload = {
+            'title': 'Post Title',
+            'body': 'Test Body',
+        }
+        self.post = Post.objects.create(
+            user=self.user,
+            title=payload['title'],
+            body=payload['body'],
+        )
+
+    def test_create_comment_success(self):
+        """Test creating and retrieving comment."""
+        payload = {
+            'body': 'Test Body',
+        }
+        comment = Comment.objects.create(
+            user=self.user,
+            body=payload['body'],
+            post=self.post,
+        )
+
+        self.assertEqual(comment.body, payload['body'])
+        self.assertEqual(comment.user, self.user)
+        self.assertEqual(comment.post, self.post)
+
+    def test_create_comment_invalid_user(self):
+        """Test creating a new comment with no user."""
+        with self.assertRaises(Exception):
+            payload = {
+                'body': 'Test Body',
+            }
+            Comment.objects.create(
+                body=payload['body'],
+                post=self.post,
+            )
+
+    def test_create_comment_invalid_post(self):
+        """Test creating a new comment with no user."""
+        with self.assertRaises(Exception):
+            payload = {
+                'body': 'Test Body',
+            }
+            Comment.objects.create(
+                body=payload['body'],
+                user=self.user,
             )
