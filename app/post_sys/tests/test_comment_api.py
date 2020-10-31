@@ -56,13 +56,11 @@ class TestPrivateCommentApi(TestCase):
         }
         self.client.post(COMMENT_URL, payload)
 
-        payload = {
-            'post': self.post.id,
-        }
-
-        res = self.client.get(COMMENT_URL, payload)
+        res = self.client.get(COMMENT_URL, {'post': self.post.id})
         self.assertEqual(res.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(res.data), 1)
+        self.assertEqual(res.data['count'], 1)
+        self.assertEqual(res.data['results'][0]['body'], payload['body'])
+        self.assertEqual(res.data['results'][0]['post'], payload['post'])
 
     def test_create_comment_successful(self):
         """Test creating and retrieving a new comment."""

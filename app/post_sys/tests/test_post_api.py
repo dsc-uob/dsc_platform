@@ -70,3 +70,22 @@ class TestPrivatePostApi(TestCase):
 
         res = self.client.post(POSTS_URL, payload)
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_get_user_posts(self):
+        """Test get all user posts"""
+        user2 = create_user(email='user2@test.com', username='Test2')
+        client = APIClient()
+        client.force_authenticate(user=user2)
+
+        payload = {
+            'title': 'This is a title',
+            'body': 'This is a body',
+        }
+
+        self.client.post(POSTS_URL, payload)
+        client.post(POSTS_URL, payload)
+        res = self.client.get(POSTS_URL, {'user': self.user.id})
+
+        self.assertEqual(res.data['count'], 1)
+        self.assertEqual(res.data['results'][0]['title'], payload['title'])
+        self.assertEqual(res.data['results'][0]['body'], payload['body'])

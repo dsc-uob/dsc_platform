@@ -3,6 +3,7 @@ from rest_framework.authentication import TokenAuthentication
 
 from core import models
 
+from .filters import UserOwnFilter
 from .serializers import PostSerializer, CommentSerializer
 from .permissions import UpdateOwnPermission
 
@@ -13,6 +14,7 @@ class PostViewSet(ModelViewSet):
     permission_classes = (UpdateOwnPermission,)
     queryset = models.Post.objects.all()
     authentication_classes = (TokenAuthentication,)
+    filter_backends = (UserOwnFilter,)
 
     def get_queryset(self):
         """Return the posts for user."""
@@ -29,6 +31,7 @@ class CommentSetView(ModelViewSet):
     permission_classes = (UpdateOwnPermission,)
     queryset = models.Comment.objects.all()
     authentication_classes = (TokenAuthentication,)
+    filter_backends = (UserOwnFilter,)
 
     def get_queryset(self):
         """Get the current comments."""

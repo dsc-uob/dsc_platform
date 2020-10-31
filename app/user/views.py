@@ -4,6 +4,8 @@ from rest_framework.settings import api_settings
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 
+from django.contrib.auth.models import update_last_login
+
 from user import serializers
 
 
@@ -23,6 +25,8 @@ class LoginView(views.ObtainAuthToken):
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         token, created = Token.objects.get_or_create(user=user)
+        update_last_login(None, user)
+
         return Response({
             'token': token.key,
             'id': user.id,
@@ -33,7 +37,6 @@ class LoginView(views.ObtainAuthToken):
             'is_active': user.is_active,
             'is_staff': user.is_staff,
             'is_superuser': user.is_superuser,
-            'is_authenticated': user.is_authenticated,
             'gender': user.gender,
             'stage': user.stage,
             'last_login': user.last_login,
