@@ -49,6 +49,8 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin):
     """User model class."""
     STAGES = (
+        (-1, 'Illiterate'),
+        (0, 'Graduate'),
         (1, 'First'),
         (2, 'Second'),
         (3, 'Third'),
@@ -67,6 +69,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     gender = models.IntegerField(choices=GENDERS, null=True)
     stage = models.IntegerField(choices=STAGES, null=True)
     bio = models.TextField(null=True)
+    photo = models.ImageField(null=True, upload_to=utils.user_image_file_path)
 
     # Contact Information
     email = models.EmailField(max_length=100, unique=True)
@@ -84,3 +87,48 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return f"{self.username} ({self.email})"
+
+
+class Post(models.Model):
+    """The model class of post."""
+    user = models.ForeignKey(
+        'User',
+        on_delete=models.CASCADE,
+    )
+    title = models.CharField(max_length=255)
+    body = models.TextField()
+    created_on = models.DateTimeField(auto_now_add=True)
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f"{self.user.username}: {self.title}"
+
+
+class Comment(models.Model):
+    """The model class of comments."""
+    user = models.ForeignKey(
+        'User',
+        on_delete=models.CASCADE,
+    )
+    post = models.ForeignKey(
+        'Post',
+        on_delete=models.CASCADE,
+    )
+    body = models.TextField()
+    created_on = models.DateTimeField(auto_now_add=True)
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f"{self.user.username}: {self.body}"
+
+
+class Image(models.Model):
+    user = models.ForeignKey(
+        'User',
+        on_delete=models.PROTECT,
+    )
+    image = models.ImageField(upload_to=utils.upload_image_file_path)
+    created_on = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.image.path}"

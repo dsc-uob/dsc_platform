@@ -1,8 +1,10 @@
-from rest_framework import generics, authentication, permissions
+from rest_framework import generics, authentication, permissions, status
 from rest_framework.authtoken import views
 from rest_framework.settings import api_settings
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
+
+from django.contrib.auth.models import update_last_login
 
 from user import serializers
 
@@ -23,6 +25,8 @@ class LoginView(views.ObtainAuthToken):
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         token, created = Token.objects.get_or_create(user=user)
+        update_last_login(None, user)
+
         return Response({
             'token': token.key,
             'id': user.id,
@@ -33,12 +37,11 @@ class LoginView(views.ObtainAuthToken):
             'is_active': user.is_active,
             'is_staff': user.is_staff,
             'is_superuser': user.is_superuser,
-            'is_authenticated': user.is_authenticated,
-            'gender': user.get_gender_display(),
-            'stage': user.get_stage_display(),
+            'gender': user.gender,
+            'stage': user.stage,
             'last_login': user.last_login,
             'bio': user.bio
-        })
+        }, status=status.HTTP_200_OK)
 
 
 class ManageUserView(generics.RetrieveUpdateAPIView):
@@ -49,3 +52,23 @@ class ManageUserView(generics.RetrieveUpdateAPIView):
 
     def get_object(self):
         return self.request.user
+
+
+class UserPhotoView(generics.RetrieveUpdateAPIView):
+    """Manage user photo."""
+    serializer_class = serializers.UserPhotoSerializer
+    authentication_classes = (authentication.TokenAuthentication,)
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get_object(self):
+        return self.request.user
+
+    def put(self, request, *args, **kwargs):
+        if request.data['photo']:
+            return self.update(request, *args, **kwargs)
+        return self.retrieve(request, *args, **kwargs)
+
+    def patch(self, request, *args, **kwargs):
+        if request.data['photo']:
+            return self.partial_update(request, *args, **kwargs)
+        return self.retrieve(request, *args, **kwargs)

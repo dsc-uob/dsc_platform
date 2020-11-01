@@ -11,7 +11,9 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('id', 'username', 'email', 'password',
                   'first_name', 'last_name', 'gender',
                   'stage', 'bio', 'is_active', 'is_staff',
-                  'is_superuser', 'last_login')
+                  'is_superuser', 'last_login', 'photo')
+        read_only_fields = ('last_login', 'is_active', 'is_staff',
+                            'is_superuser', 'photo')
         extra_kwargs = {
             'password': {
                 'write_only': True,
@@ -38,6 +40,13 @@ class UserSerializer(serializers.ModelSerializer):
 
 class AuthTokenSerializer(serializers.Serializer):
     """Auth token serializer."""
+
+    def update(self, instance, validated_data):
+        raise NotImplementedError('`update()` must be implemented.')
+
+    def create(self, validated_data):
+        raise NotImplementedError('`create()` must be implemented.')
+
     username = serializers.CharField()
     password = serializers.CharField(
         style={'input_type': 'password'},
@@ -61,3 +70,12 @@ class AuthTokenSerializer(serializers.Serializer):
 
         attrs['user'] = user
         return attrs
+
+
+class UserPhotoSerializer(serializers.ModelSerializer):
+    """Serializer for uploading user photo."""
+
+    class Meta:
+        model = get_user_model()
+        fields = ('id', 'photo')
+        read_only_fields = ('id',)
