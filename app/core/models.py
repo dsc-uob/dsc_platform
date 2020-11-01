@@ -67,6 +67,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     gender = models.IntegerField(choices=GENDERS, null=True)
     stage = models.IntegerField(choices=STAGES, null=True)
     bio = models.TextField(null=True)
+    photo = models.ImageField(null=True, upload_to=utils.user_image_file_path)
 
     # Contact Information
     email = models.EmailField(max_length=100, unique=True)
