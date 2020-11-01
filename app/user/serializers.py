@@ -12,7 +12,8 @@ class UserSerializer(serializers.ModelSerializer):
                   'first_name', 'last_name', 'gender',
                   'stage', 'bio', 'is_active', 'is_staff',
                   'is_superuser', 'last_login', 'photo')
-        read_only_fields = ('last_login', 'is_active', 'is_staff', 'is_superuser', 'photo')
+        read_only_fields = ('last_login', 'is_active', 'is_staff',
+                            'is_superuser', 'photo')
         extra_kwargs = {
             'password': {
                 'write_only': True,

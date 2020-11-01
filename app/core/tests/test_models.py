@@ -198,3 +198,20 @@ class TestCommentModel(TestCase):
                 body=payload['body'],
                 user=self.user,
             )
+
+
+class TestImageModel(TestCase):
+    """Test class for image"""
+
+    def setUp(self):
+        self.user = create_user()
+
+    @patch('uuid.uuid4')
+    def test_image_file_name_uuid(self, mock_uuid):
+        """Test that image saved in the correct location."""
+        uuid = 'test-uuid'
+        mock_uuid.return_value = uuid
+        file_path = utils.upload_image_file_path(None, 'myimage.jpg')
+        exp_path = f'uploads/media/{uuid}.jpg'
+
+        self.assertEqual(file_path, exp_path)

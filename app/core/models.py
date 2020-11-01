@@ -49,6 +49,8 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin):
     """User model class."""
     STAGES = (
+        (-1, 'Illiterate'),
+        (0, 'Graduate'),
         (1, 'First'),
         (2, 'Second'),
         (3, 'Third'),
@@ -118,3 +120,15 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"{self.user.username}: {self.body}"
+
+
+class Image(models.Model):
+    user = models.ForeignKey(
+        'User',
+        on_delete=models.PROTECT,
+    )
+    image = models.ImageField(upload_to=utils.upload_image_file_path)
+    created_on = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.image.path}"

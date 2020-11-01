@@ -23,3 +23,9 @@ def user_image_file_path(instance, filename):
     """Generate a file path for new user image."""
     return image_file_path(app_name='user',
                            instance=instance, filename=filename)
+
+
+def upload_image_file_path(instance, filename):
+    """Generate a file path for new user image."""
+    return image_file_path(app_name='media',
+                           instance=instance, filename=filename)

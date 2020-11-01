@@ -2,10 +2,10 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.authentication import TokenAuthentication
 
 from core import models
+from core.filters import UserOwnFilter
+from core.permissions import UpdateOwnPermission
 
-from .filters import UserOwnFilter
 from .serializers import PostSerializer, CommentSerializer
-from .permissions import UpdateOwnPermission
 
 
 class PostViewSet(ModelViewSet):

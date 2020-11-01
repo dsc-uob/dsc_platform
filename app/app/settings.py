@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'core',
     'user',
     'post_sys',
+    'media',
 ]
 
 MIDDLEWARE = [
