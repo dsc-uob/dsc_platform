@@ -27,24 +27,16 @@ class LoginView(views.ObtainAuthToken):
         token, created = Token.objects.get_or_create(user=user)
         update_last_login(None, user)
 
-        return Response({
+        user_data = {
             'token': token.key,
-            'id': user.id,
-            'username': user.username,
-            'email': user.email,
-            'first_name': user.first_name,
-            'last_name': user.last_name,
-            'is_active': user.is_active,
-            'is_staff': user.is_staff,
-            'is_superuser': user.is_superuser,
-            'gender': user.gender,
-            'stage': user.stage,
-            'last_login': user.last_login,
-            'bio': user.bio
-        }, status=status.HTTP_200_OK)
+        }
+        user_serializer = serializers.UserSerializer(user)
+        user_data.update(user_serializer.data)
+
+        return Response(user_data, status=status.HTTP_200_OK)
 
 
-class ManageUserView(generics.RetrieveUpdateAPIView):
+class ManageUserView(generics.RetrieveUpdateDestroyAPIView):
     """Manage authenticated user."""
     serializer_class = serializers.UserSerializer
     authentication_classes = (authentication.TokenAuthentication,)
@@ -54,7 +46,7 @@ class ManageUserView(generics.RetrieveUpdateAPIView):
         return self.request.user
 
 
-class UserPhotoView(generics.RetrieveUpdateAPIView):
+class UserPhotoView(generics.RetrieveUpdateDestroyAPIView):
     """Manage user photo."""
     serializer_class = serializers.UserPhotoSerializer
     authentication_classes = (authentication.TokenAuthentication,)

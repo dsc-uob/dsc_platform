@@ -4,3 +4,4 @@ flake8>=3.8.3, <3.9.0
 psycopg2>=2.8.6, <2.9.0
 django-filter>= 2.4.0, <2.5.0
 Pillow>=8.0.1, <9.0.0
+django-notifs>=2.6.3, <2.7.0

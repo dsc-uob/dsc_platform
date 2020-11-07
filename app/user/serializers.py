@@ -8,10 +8,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = get_user_model()
-        fields = ('id', 'username', 'email', 'password',
-                  'first_name', 'last_name', 'gender',
-                  'stage', 'bio', 'is_active', 'is_staff',
-                  'is_superuser', 'last_login', 'photo')
+        exclude = ['groups', 'user_permissions', ]
         read_only_fields = ('last_login', 'is_active', 'is_staff',
                             'is_superuser', 'photo')
         extra_kwargs = {

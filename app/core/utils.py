@@ -29,3 +29,8 @@ def upload_image_file_path(instance, filename):
     """Generate a file path for new user image."""
     return image_file_path(app_name='media',
                            instance=instance, filename=filename)
+
+
+def generate_unique_uri():
+    """Generates a unique uri for the chat session."""
+    return str(uuid.uuid4()).replace('-', '')[:15]
