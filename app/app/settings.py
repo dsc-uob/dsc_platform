@@ -24,7 +24,7 @@ SECRET_KEY = 'k4#$2$8=u%*^s)84=fe8y7u$my1c1-p#je)plp$8zabz1hq_%8'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'user',
     'post_sys',
     'media',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -135,4 +136,11 @@ AUTHENTICATION_BACKENDS = [
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 10,
+}
+ASGI_APPLICATION = 'app.routing.application'
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    },
 }
