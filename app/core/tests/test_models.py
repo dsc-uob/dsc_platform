@@ -4,7 +4,8 @@ from django.test import TestCase
 from django.contrib.auth import get_user_model
 
 from core import utils
-from core.models import Post, Comment, ChatSession, ChatMessage, ChatMember, ChatRole
+from core.models import Post, Comment, ChatSession, \
+    ChatMessage, ChatMember, ChatRole
 
 data = {
     'email': 'user@test.com',

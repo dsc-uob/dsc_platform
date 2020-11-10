@@ -69,14 +69,19 @@ class User(AbstractBaseUser, PermissionsMixin):
     gender = models.IntegerField(choices=GENDERS, null=True, blank=True)
     stage = models.IntegerField(choices=STAGES, null=True, blank=True)
     bio = models.TextField(null=True, blank=True)
-    photo = models.ImageField(null=True, blank=True, upload_to=utils.user_image_file_path)
+    photo = models.ImageField(null=True, blank=True,
+                              upload_to=utils.user_image_file_path)
 
     # Contact Information
     email = models.EmailField(max_length=100, unique=True)
-    username = models.CharField(max_length=100, unique=True)
-    github = models.CharField(max_length=255, unique=True, null=True, blank=True)
-    twitter = models.CharField(max_length=255, unique=True, null=True, blank=True)
-    number_phone = models.CharField(max_length=15, unique=True, null=True, blank=True)
+    username = models.CharField(max_length=100,
+                                unique=True)
+    github = models.CharField(max_length=255, unique=True,
+                              null=True, blank=True)
+    twitter = models.CharField(max_length=255, unique=True,
+                               null=True, blank=True)
+    number_phone = models.CharField(max_length=15, unique=True,
+                                    null=True, blank=True)
 
     # Important Information
     is_active = models.BooleanField(default=True)
