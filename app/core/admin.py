@@ -20,7 +20,7 @@ class UserModel(BaseUserAdmin):
         (
             _('Contact Information'),
             {
-                'fields': ('username', 'email')
+                'fields': ('id', 'username', 'email')
             },
         ),
         (
@@ -59,3 +59,7 @@ admin.site.register(models.User)
 admin.site.register(models.Post)
 admin.site.register(models.Comment)
 admin.site.register(models.Image)
+admin.site.register(models.ChatSession)
+admin.site.register(models.ChatMessage)
+admin.site.register(models.ChatMember)
+admin.site.register(models.ChatRole)

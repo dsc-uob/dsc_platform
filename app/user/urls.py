@@ -1,12 +1,14 @@
 from django.urls import path
 
-from .views import CreateUserApi, LoginView, ManageUserView, UserPhotoView
+from .views import CreateUserApi, LoginView, \
+    ManageUserView, UserPhotoView, sign_page
 
 app_name = 'user'
 
 urlpatterns = [
-    path('create/', CreateUserApi.as_view(), name='create'),
-    path('login/', LoginView.as_view(), name='login'),
-    path('me/', ManageUserView.as_view(), name='me'),
-    path('upload-photo/', UserPhotoView.as_view(), name='upload-photo'),
+    path('api/create/', CreateUserApi.as_view(), name='create'),
+    path('api/login/', LoginView.as_view(), name='login'),
+    path('api/me/', ManageUserView.as_view(), name='me'),
+    path('api/upload-photo/', UserPhotoView.as_view(), name='upload-photo'),
+    path('sign/', sign_page, name='sign'),
 ]
