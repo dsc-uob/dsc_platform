@@ -5,7 +5,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.authtoken.models import Token
 
 from channels.generic.websocket import JsonWebsocketConsumer
-from channels.exceptions import InvalidChannelLayerError, DenyConnection, AcceptConnection
+from channels.exceptions import InvalidChannelLayerError, \
+    DenyConnection, AcceptConnection
 
 
 class NoTokenProvided(Exception):
