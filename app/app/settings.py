@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'post_sys',
     'media',
     'channels',
+    'test',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
