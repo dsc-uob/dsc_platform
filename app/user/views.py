@@ -4,7 +4,6 @@ from rest_framework.settings import api_settings
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 
-from django.shortcuts import render
 from django.contrib.auth.models import update_last_login
 
 from user import serializers
@@ -65,8 +64,3 @@ class UserPhotoView(generics.RetrieveUpdateDestroyAPIView):
         if request.data['photo']:
             return self.partial_update(request, *args, **kwargs)
         return self.retrieve(request, *args, **kwargs)
-
-
-def sign_page(request):
-    """Return the sign in/up page!"""
-    return render(request, 'user/index.html')
