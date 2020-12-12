@@ -18,6 +18,6 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     url(r'^(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='json'),
-    url('', schema_view.with_ui('swagger', cache_timeout=0), name='swagger-ui'),
+    url('', schema_view.with_ui('swagger', cache_timeout=0), name='doc'),
     url(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='redoc'),
 ]

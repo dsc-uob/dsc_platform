@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer, \
-    ListField, PrimaryKeyRelatedField
+    ListField
 
 from core import models
 from user import serializers
@@ -124,15 +124,11 @@ class ChatSessionSerializer(ModelSerializer):
 # ChatMember section
 class _ChatSessionSerializerForMember(ModelSerializer):
     """This serializer only for ChatMemberSerializer"""
-    roles = PrimaryKeyRelatedField(
-        read_only=True,
-        many=True,
-    )
 
     class Meta:
         model = models.ChatSession
-        fields = '__all__'
-        read_only_fields = ('id', 'owner')
+        exclude = ['owner', ]
+        read_only_fields = ('id',)
 
 
 class ChatMemberSerializer(ModelSerializer):
@@ -146,8 +142,8 @@ class ChatMemberSerializer(ModelSerializer):
 
     class Meta:
         model = models.ChatMember
-        fields = '__all__'
-        read_only_fields = ('id', 'user',)
+        exclude = ['user', ]
+        read_only_fields = ('id',)
 
 
 # ChatMessage section

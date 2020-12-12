@@ -50,8 +50,10 @@ class ChatMessageConsumer(consumers.GenericWebsocketConsumer):
         ]
 
     def receive_json(self, content, **kwargs):
-        message = content['message']
-        message['chat_session'] = self.chat_session_id
+        message = {
+            'body': content['message'],
+            'chat_session': self.chat_session_id,
+        }
         if message['body']:
             serializer = self.serializer_class(data=message)
             if serializer.is_valid():

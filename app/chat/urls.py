@@ -7,8 +7,8 @@ from . import views
 app_name = 'chat'
 
 router = DefaultRouter()
-router.register('messages', views.ChatMessageView, )
-router.register('roles', views.ChatRoleView, )
+router.register('message', views.ChatMessageView, )
+router.register('role', views.ChatRoleView, )
 
 urlpatterns = [
     path('create/', views.CreateChatSessionView.as_view(), name='create'),
