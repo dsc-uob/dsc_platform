@@ -232,3 +232,55 @@ class ChatMessage(TrackableDateModel):
 
     def __str__(self):
         return self.body
+
+
+class Event(TrackableDateModel):
+    """
+    Control all events.
+    """
+    name = models.CharField(max_length=255)
+    METHODS = [
+        (0, 'Virtual'),
+        (1, 'In-Person'),
+    ]
+    method = models.IntegerField(choices=METHODS)
+    date_time = models.DateTimeField()
+
+    def __str__(self):
+        return self.name + f' ({self.get_method_display()})'
+
+
+class EventMember(TrackableDateModel):
+    """
+    Control all members of event.
+    """
+
+    name = models.CharField(max_length=255)
+    STAGES = (
+        (-1, 'Illiterate'),
+        (0, 'Graduate'),
+        (1, 'First'),
+        (2, 'Second'),
+        (3, 'Third'),
+        (4, 'Forth'),
+        (5, 'Fifth'),
+        (6, 'Sixth'),
+    )
+    stage = models.IntegerField(choices=STAGES)
+    college = models.CharField(max_length=255, null=True, blank=True)
+
+    event = models.ForeignKey(
+        'Event',
+        related_name='members',
+        on_delete=models.CASCADE,
+    )
+
+    # Contact Information
+    email = models.EmailField(max_length=100, unique=True)
+    number_phone = models.CharField(max_length=15, unique=True,
+                                    null=True, blank=True)
+    telegram = models.CharField(max_length=255, unique=True,
+                                null=True, blank=True)
+
+    def __str__(self):
+        return self.name + f' ({self.event.name}), Number: ${self.number_phone}'
