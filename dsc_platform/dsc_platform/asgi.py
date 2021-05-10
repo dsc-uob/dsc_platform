@@ -1,5 +1,5 @@
 """
-ASGI config for app project.
+ASGI config for dsc_platform project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
@@ -8,8 +8,9 @@ https://docs.djangoproject.com/en/3.1/howto/deployment/asgi/
 """
 
 import os
-from channels.routing import get_default_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'app.settings')
+from django.core.asgi import get_asgi_application
 
-application = get_default_application()
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'dsc_platform.settings')
+
+application = get_asgi_application()
