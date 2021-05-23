@@ -50,8 +50,9 @@ class User(AbstractBaseUser, PermissionsMixin, TrackableDateModel):
     last_name = models.CharField(max_length=255, null=True, blank=True)
     email = models.EmailField(unique=True)
     username = models.CharField(unique=True, max_length=255)
-    phone_number = models.CharField(max_length=15, null=True, blank=True)
-    birth_date = models.DateField()
+    phone_number = models.CharField(
+        max_length=15, null=True, blank=True, unique=True)
+    birth_date = models.DateField(null=True, blank=True)
     genders = (
         ('F', 'Female'),
         ('M', 'Male')
@@ -64,5 +65,5 @@ class User(AbstractBaseUser, PermissionsMixin, TrackableDateModel):
     is_superuser = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['first_name', 'email', 'phone_number', 'birth_date']
+    REQUIRED_FIELDS = ['first_name', 'email', 'phone_number']
     objects = UserManager()
