@@ -1,7 +1,7 @@
 from django.db import models
-from django.contrib.auth.models import BaseUserManager, PermissionsMixin, AbstractBaseUser
+from django.contrib.auth.models import BaseUserManager, \
+    PermissionsMixin, AbstractBaseUser
 from . import utils
-from configs.models import TrackableDateModel
 
 
 class UserManager(BaseUserManager):
@@ -45,25 +45,33 @@ class UserManager(BaseUserManager):
         return user
 
 
-class User(AbstractBaseUser, PermissionsMixin, TrackableDateModel):
-    first_name = models.CharField(max_length=255)
-    last_name = models.CharField(max_length=255, null=True, blank=True)
+# The genders of members
+genders = (
+    ('F', 'Female'),
+    ('M', 'Male')
+)
+
+
+class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
     username = models.CharField(unique=True, max_length=255)
+    password = models.CharField(max_length=255)
+
+    first_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255, null=True, blank=True)
     phone_number = models.CharField(
         max_length=15, null=True, blank=True, unique=True)
     birth_date = models.DateField(null=True, blank=True)
-    genders = (
-        ('F', 'Female'),
-        ('M', 'Male')
-    )
     gender = models.CharField(max_length=1, choices=genders)
-    password = models.CharField(max_length=255)
+
     is_active = models.BooleanField(default=True)
     is_deleted = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
 
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_date = models.DateTimeField(auto_now=True)
+
     USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['first_name', 'email', 'phone_number']
+    REQUIRED_FIELDS = ['first_name', 'email', 'gender']
     objects = UserManager()

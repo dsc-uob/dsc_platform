@@ -1,12 +1,14 @@
-from .models import User
+from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from .utils import validate_password, validate_phone_number
 
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
+        model = get_user_model()
         exclude = ['groups', 'user_permissions', ]
+        read_only_fields = ('last_login', 'is_active', 'is_staff', 'is_deleted',
+                            'is_superuser', 'photo')
 
         extra_kwargs = {
             'first_name': {
@@ -33,7 +35,7 @@ class UserSerializer(serializers.ModelSerializer):
         }
 
     def create(self, validated_data):
-        return User.objects.create_user(**validated_data)
+        return get_user_model().objects.create_user(**validated_data)
 
     def update(self, instance, validated_data):
         password = validated_data.pop('password', None)
