@@ -2,7 +2,7 @@ name: Django Run Tests
 on:
   push:
     branches:
-      - release/2.0
+      - develop
 jobs:
   build:
     runs-on: ubuntu-latest
