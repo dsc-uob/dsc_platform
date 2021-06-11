@@ -6,8 +6,8 @@ from .utils import validate_password, validate_phone_number
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
-        exclude = ['groups', 'user_permissions', ]
-        read_only_fields = ('last_login', 'is_active', 'is_staff', 'is_deleted',
+        exclude = ['groups', 'user_permissions', 'is_deleted']
+        read_only_fields = ('last_login', 'is_active', 'is_staff',
                             'is_superuser', 'photo')
 
         extra_kwargs = {
