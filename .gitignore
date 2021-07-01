@@ -136,3 +136,6 @@ dmypy.json
 migrations/
 
 app/.idea/
+.idea/
+/dsc_platform/.idea/
+/dscenv/

@@ -48,7 +48,7 @@ class Article(BasePostModel):
     """
     The articles model.
     """
-    pass
+    tags = models.ManyToManyField('search.Tag', 'article_tags')
 
 
 class ArticleComment(BaseCommentModel):
@@ -74,6 +74,7 @@ class Enquiry(BasePostModel):
     """
     solved = models.BooleanField(default=False)
     type = models.CharField(choices=EnquiryType, max_length=1)
+    tags = models.ManyToManyField('search.Tag', 'enquiry_tags')
 
     def __str__(self):
         return f'[{self.get_type_display()}] {self.title}'
